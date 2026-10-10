@@ -4,16 +4,29 @@ A Spring Boot application that consumes `OrderCreated` messages from an Apache K
 
 ## Tech Stack
 
-- Java 17
-- Spring Boot
-- Spring Kafka
-- Apache Kafka
-- Maven
-- Jackson JSON
+* Java 17
+* Spring Boot
+* Spring Kafka
+* Apache Kafka
+* Maven
+* Jackson JSON
 
 ## Kafka Configuration
 
 The application connects to Kafka running locally on port `9092`.
+
+## Expected JSON Message Format
+
+Messages sent to the `order.created` topic must match the structure expected by the `OrderCreated` Java class.
+
+### Example
+
+```json
+{
+  "orderId": "78927b1b-fe69-4757-9114-e3e838a868e8",
+  "item": "item-1"
+}
+```
 
 ### application.properties
 
