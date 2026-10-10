@@ -1,6 +1,7 @@
 package com.chandan.dispatch.handler;
 
 import com.chandan.dispatch.message.OrderCreated;
+import com.chandan.dispatch.message.OrderDispatched;
 import com.chandan.dispatch.service.DispatchService;
 import com.chandan.dispatch.util.TestEventData;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,8 +25,16 @@ class OrderCreatedHandlerTest {
     }
 
     @Test
-    void listen() {
+    void listen_Success() throws Exception{
         OrderCreated testEvent = TestEventData.buildOrderCreateEvent(randomUUID(),randomUUID().toString());
+        handler.listen(testEvent);
+        verify(dispatchServiceMock,times(1)).process(testEvent);
+    }
+
+    @Test
+    void listen_ServiceThrowsException() throws Exception{
+        OrderCreated testEvent = TestEventData.buildOrderCreateEvent(randomUUID(),randomUUID().toString());
+        doThrow(new RuntimeException("Service failure")).when(dispatchServiceMock).process(testEvent);
         handler.listen(testEvent);
         verify(dispatchServiceMock,times(1)).process(testEvent);
     }
